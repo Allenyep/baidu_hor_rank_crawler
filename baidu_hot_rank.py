@@ -18,7 +18,9 @@ filename = time.strftime("%Y-%m-%d_%H", time.localtime())
 re_url = '.*(https.*?)"'
 re_content = '.*sis">(.*?)<'
 
-with open('./data/{}.md'.format(filename),'w') as f:
+
+
+with open('./data/{}.md'.format(filename),'w+') as f:
     for idx,obj in enumerate(a_list):
         content = re.match(re_content,str(obj),re.I).group(1).strip()
         url = re.match(re_url,str(obj),re.I).group(1)
