@@ -1,8 +1,8 @@
 name: schedule
 
-on:
-  schedule:
-    - cron: "0 * * * *"
+on: [push, pull_request]
+  # schedule:
+  #   - cron: "0 * * * *"
 
 
 jobs:
