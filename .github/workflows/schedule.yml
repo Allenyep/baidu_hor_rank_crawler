@@ -1,0 +1,28 @@
+name: schedule
+
+on:
+  schedule:
+    - cron: "0 * * * *"
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    env:
+      TZ: Asia/Shanghai
+
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v2
+
+      - name: Run Python
+        run: |
+          git config --local user.email "bot@github.com"
+          git config --local user.name "bot"
+          git remote set-url origin https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+          git pull --rebase
+          python baidu_hot_rank.py
+          git add .
+          git commit -m "update by github action"
+          git push
