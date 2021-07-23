@@ -10,9 +10,10 @@ headers = {
 base_url = "https://top.baidu.com/board?tab=realtime"
 response  = requests.get(base_url,headers=headers,verify=False)
 html = response.text
-soup = BeautifulSoup(html,'lxml')
+soup = BeautifulSoup(html)
 a_list = soup.findAll('a',class_='title_dIF3B')
 filename = time.strftime("%Y-%m-%d_%H", time.localtime())
+
 # 过滤
 re_url = '.*(https.*?)"'
 re_content = '.*sis">(.*?)<'
@@ -23,3 +24,4 @@ with open('./data/{}.md'.format(filename),'w') as f:
         url = re.match(re_url,str(obj),re.I).group(1)
         str_news = str(idx+1)+".["+content+"]("+url+")"+"\n"
         f.write(str_news)
+
