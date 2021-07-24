@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 import requests
 import time
 import re
+import os
 
 requests.packages.urllib3.disable_warnings()
 headers = {
@@ -13,14 +14,18 @@ html = response.text
 soup = BeautifulSoup(html)
 a_list = soup.findAll('a',class_='title_dIF3B')
 filename = time.strftime("%Y-%m-%d_%H", time.localtime())
+filedir = time.strftime("%Y-%m-%d", time.localtime())
 
 # 过滤
 re_url = '.*(https.*?)"'
 re_content = '.*sis">(.*?)<'
 
 
+if not os.path.exists('./data/{}'.format(filedir)):
+     os.makedirs('./data/{}'.format(filedir))
 
-with open('./data/{}.md'.format(filename),'w+') as f:
+
+with open('./data/{}/{}.md'.format(filedir, filename),'w+') as f:
     for idx,obj in enumerate(a_list):
         content = re.match(re_content,str(obj),re.I).group(1).strip()
         url = re.match(re_url,str(obj),re.I).group(1)
