@@ -32,7 +32,7 @@ if not os.path.exists('./data/{}'.format(filedir)):
      os.makedirs('./data/{}'.format(filedir))
 
 for i in tab_list:
-    response  = requests.get(base_url + i,headers=headers,verify=False, timeout=(50, 30))
+    response  = requests.get(base_url + i,headers=headers,verify=False, timeout=(150, 30))
     soup = BeautifulSoup(response.text)
     a_list = soup.findAll('a',class_='title_dIF3B')
     with open('./data/{}/{}.md'.format(filedir, filename),'a') as f:
