@@ -8,7 +8,7 @@ requests.packages.urllib3.disable_warnings()
 headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36'
 }
-tab_list = ['realtime','novel','movie','teleplay','cartoon','variety','documentary','star','car','game']
+tab_list = ['realtime','novel','movie','teleplay','cartoon','variety','documentary','car','game']
 tab_dict = {
     'realtime': '热搜',
     'novel':'小说',
@@ -41,5 +41,6 @@ for i in tab_list:
             content = re.match(re_content,str(obj),re.I).group(1).strip()
             url = re.match(re_url,str(obj),re.I).group(1)
             str_news = str(idx+1)+".["+content+"]("+url+")"+"\n"
+            # print(str_news)
             f.write(str_news)
 
