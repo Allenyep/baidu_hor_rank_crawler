@@ -3,6 +3,7 @@ import requests
 import time
 import re
 import os
+from requests.adapters import HTTPAdapter
 
 requests.packages.urllib3.disable_warnings()
 headers = {
@@ -22,6 +23,10 @@ tab_dict = {
 }
 base_url = "https://top.baidu.com/board?tab="
 
+session = requests.Session()
+session.mount('http://', HTTPAdapter(max_retries=3))
+session.mount('https://', HTTPAdapter(max_retries=3))
+
 filename = time.strftime("%Y-%m-%d_%H", time.localtime())
 filedir = time.strftime("%Y-%m-%d", time.localtime())
 # 过滤
@@ -32,7 +37,7 @@ if not os.path.exists('./data/{}'.format(filedir)):
      os.makedirs('./data/{}'.format(filedir))
 
 for i in tab_list:
-    response  = requests.get(base_url + i,headers=headers,verify=False, timeout=(150, 30))
+    response  = session.get(base_url + i,headers=headers,verify=False, timeout=(150, 30))
     soup = BeautifulSoup(response.text)
     a_list = soup.findAll('a',class_='title_dIF3B')
     with open('./data/{}/{}.md'.format(filedir, filename),'a') as f:
