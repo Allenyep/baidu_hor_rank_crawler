@@ -4,6 +4,7 @@ import time
 import re
 import os
 from requests.adapters import HTTPAdapter
+import io
 
 requests.packages.urllib3.disable_warnings()
 headers = {
@@ -40,7 +41,7 @@ for i in tab_list:
     response  = session.get(base_url + i,headers=headers,verify=False, timeout=(150, 30))
     soup = BeautifulSoup(response.text)
     a_list = soup.findAll('a',class_='title_dIF3B')
-    with open('./data/{}/{}.md'.format(filedir, filename),'a') as f:
+    with io.open('./data/{}/{}.md'.format(filedir, filename), 'a', encoding='utf-8') as f:  # Specify UTF-8 encoding
         f.write("\n" + tab_dict[i] + "\n")
         for idx,obj in enumerate(a_list):
             content = re.match(re_content,str(obj),re.I).group(1).strip()
